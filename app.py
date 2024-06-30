@@ -6,6 +6,20 @@ from chatbot import init_chatbot, process_chat_message
 
 st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
 
+def display_suggested_questions():
+    st.sidebar.header("Suggested Questions")
+    questions = [
+        "What is Samson's current job?",
+        "What are Samson's key skills?",
+        "Where did Samson study?",
+        "What projects has Samson worked on?",
+        "What is Samson's experience with LLMs?"
+    ]
+    for question in questions:
+        if st.sidebar.button(question):
+            st.session_state.user_question = question
+            st.experimental_rerun()
+
 def main():
     # Initialize the chatbot
     init_chatbot()
@@ -22,8 +36,17 @@ def main():
         # Uncomment the line below when the data_science_tools.py file is ready
         # show_data_science_tools()
 
+    # Display suggested questions
+    display_suggested_questions()
+
     # Process chat messages
-    process_chat_message(personal_info)
+    if 'user_question' not in st.session_state:
+        st.session_state.user_question = ""
+
+    user_question = st.text_input("Ask me anything about Samson:", value=st.session_state.user_question)
+    if user_question:
+        process_chat_message(personal_info, user_question)
+        st.session_state.user_question = ""
 
 if __name__ == "__main__":
     main()
