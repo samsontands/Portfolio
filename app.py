@@ -39,11 +39,6 @@ def main():
     # Display suggested questions
     display_suggested_questions()
 
-    # Single chat input and processing
-    if 'user_question' not in st.session_state:
-        st.session_state.user_question = ""
-
-    user_question = st.text_input("Ask me anything about Samson:", key="chat_input")
     
     if user_question:
         process_chat_message(personal_info, user_question)
