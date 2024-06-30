@@ -33,15 +33,23 @@ def show_data_visualization():
     
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
     if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file)
-        st.write("Data Preview:")
-        st.dataframe(df.head())
-        
-        # Generate the HTML using Pygwalker
-        pyg_html = pyg.to_html(df)
-        
-        # Embed the HTML into the Streamlit app
-        components.html(pyg_html, height=1000, scrolling=True)
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.write("Data Preview:")
+            st.dataframe(df.head())
+            
+            # Generate the HTML using Pygwalker
+            pyg_html = pyg.to_html(df)
+            
+            # Embed the HTML into the Streamlit app
+            components.html(pyg_html, height=1000, scrolling=True)
+        except pd.errors.EmptyDataError:
+            st.error("The uploaded file is empty. Please upload a file with data.")
+        except pd.errors.ParserError:
+            st.error("Unable to parse the file. Please ensure it's a valid CSV file.")
+        except Exception as e:
+            st.error(f"An error occurred while processing the file: {str(e)}")
+            st.write("If the issue persists, please try with a different CSV file.")
 
 def main():
     # Initialize the chatbot
