@@ -133,12 +133,14 @@ def main():
     """)
 
     # Chatbot
-    st.header("Ask me anything!")
-    user_question = st.text_input("What would you like to know about Samson?")
+    st.header("Quick Q&A about Samson")
+    st.write("Ask a question to get a brief response about Samson's background, skills, or experience.")
+    user_question = st.text_input("What would you like to know?")
     if user_question:
-        with st.spinner('Getting answer...'):
+        with st.spinner('Getting a quick answer...'):
             response = get_groq_response(user_question)
         st.write(response)
+    st.caption("Note: Responses are kept brief. For more detailed information, please refer to the sections above.")
 
 if __name__ == "__main__":
     main()
