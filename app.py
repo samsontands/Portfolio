@@ -1,7 +1,6 @@
 import streamlit as st
 from about_me import show_about_me, personal_info
 from chatbot import init_chatbot, process_chat_message
-from pygwalker_viz import show_data_viz  # This import stays the same
 
 st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
 
@@ -30,44 +29,41 @@ def main():
     init_chatbot()
 
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", ["About Me", "Ask me anything", "Data Profiling"])
+    page = st.sidebar.radio("Go to", ["About Me", "Ask me anything"])
 
     if page == "About Me":
         show_about_me()
     elif page == "Ask me anything":
         show_ask_me_anything()
-    elif page == "Data Profiling":
-        show_data_viz()
 
-    # Display suggested questions (only for "Ask me anything" page)
-    if page == "Ask me anything":
-        display_suggested_questions()
+    # Display suggested questions
+    display_suggested_questions()
 
-        # Initialize session states
-        if 'user_question' not in st.session_state:
-            st.session_state.user_question = ""
-        if 'run_query' not in st.session_state:
-            st.session_state.run_query = False
+    # Initialize session states
+    if 'user_question' not in st.session_state:
+        st.session_state.user_question = ""
+    if 'run_query' not in st.session_state:
+        st.session_state.run_query = False
 
-        # Single chat input
-        user_input = st.text_input("Ask me anything about Samson:", key="chat_input", value=st.session_state.user_question)
+    # Single chat input
+    user_input = st.text_input("Ask me anything about Samson:", key="chat_input", value=st.session_state.user_question)
+    
+    # Process the question if it's entered manually or suggested
+    if user_input or st.session_state.run_query:
+        if user_input:
+            question_to_process = user_input
+        else:
+            question_to_process = st.session_state.user_question
         
-        # Process the question if it's entered manually or suggested
-        if user_input or st.session_state.run_query:
-            if user_input:
-                question_to_process = user_input
-            else:
-                question_to_process = st.session_state.user_question
-            
-            if question_to_process:
-                process_chat_message(personal_info, question_to_process)
-                st.session_state.user_question = ""  # Clear the stored question
-                st.session_state.run_query = False  # Reset the run flag
+        if question_to_process:
+            process_chat_message(personal_info, question_to_process)
+            st.session_state.user_question = ""  # Clear the stored question
+            st.session_state.run_query = False  # Reset the run flag
 
-        # Clear the input field after processing
-        if st.session_state.run_query:
-            st.session_state.user_question = ""
-            st.experimental_rerun()
+    # Clear the input field after processing
+    if st.session_state.run_query:
+        st.session_state.user_question = ""
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
