@@ -4,3 +4,4 @@ streamlit_timeline
 pillow
 plotly
 pandas
+pygwalker
