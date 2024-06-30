@@ -6,6 +6,10 @@ from chatbot import init_chatbot, process_chat_message
 
 st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
 
+def handle_suggested_question(question):
+    st.session_state.user_question = question
+    st.session_state.process_question = True
+
 def display_suggested_questions():
     st.sidebar.header("Suggested Questions")
     questions = [
@@ -16,9 +20,7 @@ def display_suggested_questions():
         "What is Samson's experience with LLMs?"
     ]
     for question in questions:
-        if st.sidebar.button(question):
-            st.session_state.user_question = question
-            st.experimental_rerun()
+        st.sidebar.button(question, on_click=handle_suggested_question, args=(question,))
 
 def main():
     # Initialize the chatbot
@@ -39,15 +41,21 @@ def main():
     # Display suggested questions
     display_suggested_questions()
 
-    # Single chat input and processing
+    # Initialize session states
     if 'user_question' not in st.session_state:
         st.session_state.user_question = ""
+    if 'process_question' not in st.session_state:
+        st.session_state.process_question = False
 
-    user_question = st.text_input("Ask me anything about Samson:", key="chat_input")
+    # Single chat input and processing
+    user_question = st.text_input("Ask me anything about Samson:", value=st.session_state.user_question, key="chat_input")
     
-    if user_question:
-        process_chat_message(personal_info, user_question)
+    # Process the question if it's entered manually or suggested
+    if user_question or st.session_state.process_question:
+        process_chat_message(personal_info, st.session_state.user_question)
         st.session_state.user_question = ""  # Clear the input after processing
+        st.session_state.process_question = False  # Reset the process flag
 
 if __name__ == "__main__":
     main()
+    
