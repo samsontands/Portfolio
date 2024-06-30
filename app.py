@@ -1,7 +1,7 @@
 import streamlit as st
 from about_me import show_about_me, personal_info
 from chatbot import init_chatbot, process_chat_message
-from pygwalker_viz import show_pygwalker
+from pygwalker_viz import show_data_viz  # This import stays the same
 
 st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
 
@@ -30,14 +30,14 @@ def main():
     init_chatbot()
 
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", ["About Me", "Ask me anything", "PyGWalker Visualization"])
+    page = st.sidebar.radio("Go to", ["About Me", "Ask me anything", "Data Profiling"])
 
     if page == "About Me":
         show_about_me()
     elif page == "Ask me anything":
         show_ask_me_anything()
-    elif page == "PyGWalker Visualization":
-        show_pygwalker()
+    elif page == "Data Profiling":
+        show_data_viz()
 
     # Display suggested questions (only for "Ask me anything" page)
     if page == "Ask me anything":
