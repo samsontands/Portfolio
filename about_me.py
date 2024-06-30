@@ -30,23 +30,6 @@ Samson is based in Kuala Lumpur, Malaysia and can be contacted at +6011-1122 112
 His LinkedIn profile is https://www.linkedin.com/in/samsonthedatascientist/
 """
 
-def get_groq_response(prompt):
-    url = "https://api.groq.com/openai/v1/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {st.secrets['GROQ_API_KEY']}",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "model": "mixtral-8x7b-32768",
-        "messages": [
-            {"role": "system", "content": f"You are an AI assistant that answers questions about Samson Tan based on the following information: {personal_info} Your responses should be short, concise, and to the point, typically no more than 2-3 sentences."},
-            {"role": "user", "content": prompt}
-        ],
-        "max_tokens": 100
-    }
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    return response.json()['choices'][0]['message']['content']
-
 def show_about_me():
     st.title("Samson Tan Jia Sheng")
     st.subheader("Data Scientist")
@@ -57,6 +40,35 @@ def show_about_me():
     Skilled Data Scientist with expertise in Large Language Models (LLM) and the latest AI/ML advancements. 
     Exceptional at applying current technologies for impactful solutions and staying agile in a rapidly evolving field.
     """)
+
+    # Work Experience Timeline
+    st.header("Work Experience Timeline")
+    items = [
+        {"id": 1, "content": "Alliance Bank Malaysia Berhad", "start": "2022-06-01", "end": "2024-06-30", "group": "Work"},
+        {"id": 2, "content": "GoGet.my", "start": "2021-05-01", "end": "2022-05-31", "group": "Work"},
+        {"id": 3, "content": "Masters in Data Science", "start": "2020-09-01", "end": "2022-05-31", "group": "Education"},
+        {"id": 4, "content": "Bachelor's Degree", "start": "2016-09-01", "end": "2020-05-31", "group": "Education"}
+    ]
+    
+    groups = [
+        {"id": "Work", "content": "Work Experience"},
+        {"id": "Education", "content": "Education"}
+    ]
+    
+    options = {
+        "stack": True,
+        "showMajorLabels": True,
+        "showCurrentTime": False,
+        "zoomable": False,
+        "height": "300px",
+        "start": "2016-01-01",
+        "end": "2024-12-31"
+    }
+    
+    timeline = st_timeline(items, groups=groups, options=options)
+    
+    if timeline:
+        st.write(f"You selected: {timeline}")
 
     # Contact Information
     st.sidebar.header("Contact Information")
