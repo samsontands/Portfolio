@@ -1,34 +1,27 @@
 import streamlit as st
 import requests
 import json
+from streamlit_timeline import timeline
+import plotly.graph_objects as go
+import pandas as pd
 
-# Your personal information as a string (this will be used as context for the AI)
+# Load timeline data from JSON file
+with open('timeline.json', 'r') as f:
+    timeline_data = json.load(f)
+
+# Your personal information as a string (keep this for the chatbot context)
 personal_info = """
 Samson Tan Jia Sheng is a skilled Data Scientist with expertise in Large Language Models (LLM) and the latest AI/ML advancements. 
-He is currently working at Alliance Bank Malaysia Berhad as a Data Scientist since June 2022. 
-His key achievements include:
-- Spearheaded on-premise deployment of AI-powered chatbot for housing discount checks
-- Leveraged AI computer vision techniques to extract data from unstructured sources
-- Developed user-friendly Python applications for cross-departmental PDF customization
-- Conducted training on Tableau and Python for various teams
-
-Previously, he worked at GoGet.my as a Data Scientist from May 2021 to June 2022, where he:
-- Built rider-job-claiming machine learning model improving timeliness
-- Set up and managed Amazon Quicksight visualization dashboard
-- Utilized ARIMA models for forecasting peak season rider demand
-
-Samson has a Masters in Data Science and Business Analytics (Data Engineering) from Asia Pacific University of Technology and Innovation,
-and a Bachelor of Psychology and Business (Psychology and Econometrics) from Monash University.
-
-His skills include:
-- AI Skills: LLM fine-tuning, Retrieval Augmented Generation (RAG), Machine Learning, Natural Language Processing (NLP), Computer Vision, API integrations and BERT embeddings
-- Languages and Databases: Python, R, SQL, PostgreSQL
-- Frameworks and Tools: RAG, VScode, Anaconda, RStudio, Google Colab, LM Studio, Ollama, Jan, MLX, CUDA, PyTorch
-- LLM Models: Mistral, Mixtral, Meta Llama2, Microsoft Phi2, Google Gemma (Local Offline), OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API (Cloud API)
-
-Samson is based in Kuala Lumpur, Malaysia and can be contacted at +6011-1122 1128 or samsontands@gmail.com.
-His LinkedIn profile is https://www.linkedin.com/in/samsonthedatascientist/
+...
 """
+
+def get_groq_response(prompt):
+    # ... (keep the existing get_groq_response function)
+
+def create_skill_buttons(skills):
+    cols = st.columns(4)  # Adjust the number of columns as needed
+    for i, skill in enumerate(skills):
+        cols[i % 4].button(skill)
 
 def show_about_me():
     st.title("Samson Tan Jia Sheng")
@@ -41,106 +34,43 @@ def show_about_me():
     Exceptional at applying current technologies for impactful solutions and staying agile in a rapidly evolving field.
     """)
 
-    # Work Experience Timeline
-    st.header("Work Experience Timeline")
-    items = [
-        {"id": 1, "content": "Alliance Bank Malaysia Berhad", "start": "2022-06-01", "end": "2024-06-30", "group": "Work"},
-        {"id": 2, "content": "GoGet.my", "start": "2021-05-01", "end": "2022-05-31", "group": "Work"},
-        {"id": 3, "content": "Masters in Data Science", "start": "2020-09-01", "end": "2022-05-31", "group": "Education"},
-        {"id": 4, "content": "Bachelor's Degree", "start": "2016-09-01", "end": "2020-05-31", "group": "Education"}
-    ]
-    
-    groups = [
-        {"id": "Work", "content": "Work Experience"},
-        {"id": "Education", "content": "Education"}
-    ]
-    
-    options = {
-        "stack": True,
-        "showMajorLabels": True,
-        "showCurrentTime": False,
-        "zoomable": False,
-        "height": "300px",
-        "start": "2016-01-01",
-        "end": "2024-12-31"
-    }
-    
-    timeline = st_timeline(items, groups=groups, options=options)
-    
-    if timeline:
-        st.write(f"You selected: {timeline}")
+    # Career Timeline
+    st.subheader('Career snapshot')
+    with st.spinner(text="Building timeline..."):
+        timeline(timeline_data, height=400)
 
-    # Contact Information
-    st.sidebar.header("Contact Information")
-    st.sidebar.write("📞 +6011-1122 1128")
-    st.sidebar.write("✉️ samsontands@gmail.com")
-    st.sidebar.write("📍 Kuala Lumpur, Malaysia")
-    st.sidebar.write("🔗 [LinkedIn](https://www.linkedin.com/in/samsonthedatascientist/)")
+    # Skills & Tools
+    st.subheader('Skills & Tools ⚒️')
+    skills = [
+        "LLM fine-tuning", "RAG", "Machine Learning", "NLP", "Computer Vision", 
+        "API integrations", "BERT embeddings", "Python", "R", "SQL", "PostgreSQL",
+        "VScode", "Anaconda", "RStudio", "Google Colab", "PyTorch"
+    ]
+    create_skill_buttons(skills)
 
     # Experience
     st.header("Work Experience")
-
-    st.subheader("Alliance Bank Malaysia Berhad")
-    st.write("**Data Scientist | June, 2022 - Present**")
-    st.write("""
-    - Spearheaded on-premise deployment of AI-powered chatbot for housing discount checks
-    - Leveraged AI computer vision techniques to extract data from unstructured sources
-    - Developed user-friendly Python applications for cross-departmental PDF customization
-    - Conducted training on Tableau and Python for various teams
-    """)
-
-    st.subheader("GoGet.my")
-    st.write("**Data Scientist | May, 2021 - June, 2022**")
-    st.write("""
-    - Built rider-job-claiming machine learning model improving timeliness
-    - Set up and managed Amazon Quicksight visualization dashboard
-    - Utilized ARIMA models for forecasting peak season rider demand
-    """)
-
-    # Skills
-    st.header("Skills")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.subheader("AI Skills")
-        st.write("""
-        - LLM fine-tuning
-        - Retrieval Augmented Generation (RAG)
-        - Machine Learning
-        - Natural Language Processing (NLP)
-        - Computer Vision
-        - API integrations and BERT embeddings
-        """)
-
-    with col2:
-        st.subheader("Languages and Databases")
-        st.write("Python, R, SQL, PostgreSQL")
-
-        st.subheader("Frameworks and Tools")
-        st.write("""
-        RAG, VScode, Anaconda, RStudio, Google Colab, 
-        LM Studio, Ollama, Jan, MLX, CUDA, PyTorch
-        """)
-
-    with col3:
-        st.subheader("LLM Models")
-        st.write("""
-        **Local Offline:**
-        Mistral, Mixtral, Meta Llama2, Microsoft Phi2, Google Gemma
-
-        **Cloud API:**
-        OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API
-        """)
+    # ... (keep your existing work experience content)
 
     # Education
-    st.header("Education")
-    st.write("""
-    - **Masters in Data Science and Business Analytics (Data Engineering)**
-      Asia Pacific University of Technology and Innovation
+    st.subheader('Education 📖')
+    education_data = pd.DataFrame({
+        'Degree': ['Masters in Data Science and Business Analytics (Data Engineering)', 
+                   'Bachelor of Psychology and Business (Psychology and Econometrics)'],
+        'Institution': ['Asia Pacific University of Technology and Innovation', 'Monash University'],
+        'Year': ['2020-2022', '2016-2020']
+    })
 
-    - **Bachelor of Psychology and Business (Psychology and Econometrics)**
-      Monash University
-    """)
+    fig = go.Figure(data=[go.Table(
+        header=dict(values=list(education_data.columns),
+                    fill_color='paleturquoise',
+                    align='left', height=65, font_size=20),
+        cells=dict(values=education_data.transpose().values.tolist(),
+                   fill_color='lavender',
+                   align='left', height=40, font_size=15))])
+
+    fig.update_layout(width=750, height=200)
+    st.plotly_chart(fig)
 
     # Chatbot
     st.header("Quick Q&A about Samson")
@@ -151,3 +81,6 @@ def show_about_me():
             response = get_groq_response(user_question)
         st.write(response)
     st.caption("Note: Responses are kept brief. For more detailed information, please refer to the sections above.")
+
+# Make sure to export personal_info for use in other parts of your app
+personal_info = personal_info
