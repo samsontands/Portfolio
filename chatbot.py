@@ -12,7 +12,8 @@ def process_chat_message(personal_info, user_question):
         response = get_groq_response(user_question, personal_info)
         st.session_state.chat_messages.append(('ai', response))
         
-        for role, message in st.session_state.chat_messages:
+        # Reverse the order of messages and display them
+        for role, message in reversed(st.session_state.chat_messages):
             if role == 'user':
                 st.write(f"You: {message}")
             else:
