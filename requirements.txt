@@ -4,5 +4,7 @@ streamlit_timeline
 pillow
 plotly
 pandas
-pygwalker
+requests
+ydata-profiling
+streamlit-pandas-profiling
 numpy
