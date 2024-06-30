@@ -5,37 +5,18 @@ from streamlit_timeline import timeline
 import plotly.graph_objects as go
 import pandas as pd
 
-# Load timeline data from JSON file
+# Load configuration files
 with open('timeline.json', 'r') as f:
     timeline_data = json.load(f)
 
-# Your personal information as a string (this will be used as context for the AI)
-personal_info = """
-Samson Tan Jia Sheng is a skilled Data Scientist with expertise in Large Language Models (LLM) and the latest AI/ML advancements. 
-He is currently working at Alliance Bank Malaysia Berhad as a Data Scientist since June 2022. 
-His key achievements include:
-- Spearheaded on-premise deployment of AI-powered chatbot for housing discount checks
-- Leveraged AI computer vision techniques to extract data from unstructured sources
-- Developed user-friendly Python applications for cross-departmental PDF customization
-- Conducted training on Tableau and Python for various teams
+with open('config/personal_info.txt', 'r') as f:
+    personal_info = f.read()
 
-Previously, he worked at GoGet.my as a Data Scientist from May 2021 to June 2022, where he:
-- Built rider-job-claiming machine learning model improving timeliness
-- Set up and managed Amazon Quicksight visualization dashboard
-- Utilized ARIMA models for forecasting peak season rider demand
+with open('config/system_prompt.txt', 'r') as f:
+    system_prompt = f.read()
 
-Samson has a Masters in Data Science and Business Analytics (Data Engineering) from Asia Pacific University of Technology and Innovation,
-and a Bachelor of Psychology and Business (Psychology and Econometrics) from Monash University.
-
-His skills include:
-- AI Skills: LLM fine-tuning, Retrieval Augmented Generation (RAG), Machine Learning, Natural Language Processing (NLP), Computer Vision, API integrations and BERT embeddings
-- Languages and Databases: Python, R, SQL, PostgreSQL
-- Frameworks and Tools: RAG, VScode, Anaconda, RStudio, Google Colab, LM Studio, Ollama, Jan, MLX, CUDA, PyTorch
-- LLM Models: Mistral, Mixtral, Meta Llama2, Microsoft Phi2, Google Gemma (Local Offline), OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API (Cloud API)
-
-Samson is based in Kuala Lumpur, Malaysia and can be contacted at +6011-1122 1128 or samsontands@gmail.com.
-His LinkedIn profile is https://www.linkedin.com/in/samsonthedatascientist/
-"""
+with open('config/skills.json', 'r') as f:
+    skills_data = json.load(f)
 
 def get_groq_response(prompt):
     url = "https://api.groq.com/openai/v1/chat/completions"
@@ -46,7 +27,7 @@ def get_groq_response(prompt):
     data = {
         "model": "mixtral-8x7b-32768",
         "messages": [
-            {"role": "system", "content": f"You are an AI assistant that answers questions about Samson Tan based on the following information: {personal_info} Your responses should be short, concise, and to the point, typically no more than 2-3 sentences."},
+            {"role": "system", "content": f"{system_prompt} {personal_info}"},
             {"role": "user", "content": prompt}
         ],
         "max_tokens": 100
@@ -84,12 +65,7 @@ def show_about_me():
 
     # Skills & Tools
     st.subheader('Skills & Tools ⚒️')
-    skills = [
-        "LLM fine-tuning", "RAG", "Machine Learning", "NLP", "Computer Vision", 
-        "API integrations", "BERT embeddings", "Python", "R", "SQL", "PostgreSQL",
-        "VScode", "Anaconda", "RStudio", "Google Colab", "PyTorch"
-    ]
-    create_skill_buttons(skills)
+    create_skill_buttons(skills_data['skills'])
 
     # Experience
     st.header("Work Experience")
