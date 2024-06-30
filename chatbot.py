@@ -18,7 +18,6 @@ def process_chat_message(personal_info, user_question):
             else:
                 st.write(f"AI: {message}")
 
-
 def get_groq_response(prompt, personal_info):
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
