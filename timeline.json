@@ -1,0 +1,62 @@
+{
+  "title": {
+    "text": {
+      "headline": "Samson Tan's Career Timeline",
+      "text": "A journey through data science and AI"
+    }
+  },
+  "events": [
+    {
+      "start_date": {
+        "year": "2022",
+        "month": "06"
+      },
+      "text": {
+        "headline": "Data Scientist at Alliance Bank Malaysia Berhad",
+        "text": "Spearheaded AI-powered chatbot deployment and leveraged computer vision techniques"
+      }
+    },
+    {
+      "start_date": {
+        "year": "2021",
+        "month": "05"
+      },
+      "end_date": {
+        "year": "2022",
+        "month": "05"
+      },
+      "text": {
+        "headline": "Data Scientist at GoGet.my",
+        "text": "Built machine learning models and managed dashboards"
+      }
+    },
+    {
+      "start_date": {
+        "year": "2020",
+        "month": "09"
+      },
+      "end_date": {
+        "year": "2022",
+        "month": "05"
+      },
+      "text": {
+        "headline": "Masters in Data Science and Business Analytics",
+        "text": "Asia Pacific University of Technology and Innovation"
+      }
+    },
+    {
+      "start_date": {
+        "year": "2016",
+        "month": "09"
+      },
+      "end_date": {
+        "year": "2020",
+        "month": "05"
+      },
+      "text": {
+        "headline": "Bachelor of Psychology and Business",
+        "text": "Monash University"
+      }
+    }
+  ]
+}
