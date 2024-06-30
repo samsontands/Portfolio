@@ -6,7 +6,7 @@ st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
 
 def handle_suggested_question(question):
     st.session_state.user_question = question
-    st.session_state.process_question = True
+    st.session_state.run_query = True
 
 def display_suggested_questions():
     st.sidebar.header("Suggested Questions")
@@ -42,19 +42,29 @@ def main():
     # Initialize session states
     if 'user_question' not in st.session_state:
         st.session_state.user_question = ""
-    if 'process_question' not in st.session_state:
-        st.session_state.process_question = False
+    if 'run_query' not in st.session_state:
+        st.session_state.run_query = False
 
-    # Single chat input and processing
-    user_question = st.text_input("Ask me anything about Samson:", key="chat_input")
+    # Single chat input
+    user_input = st.text_input("Ask me anything about Samson:", key="chat_input", value=st.session_state.user_question)
     
     # Process the question if it's entered manually or suggested
-    if user_question or st.session_state.process_question:
-        question_to_process = user_question if user_question else st.session_state.user_question
-        process_chat_message(personal_info, question_to_process)
-        st.session_state.user_question = ""  # Clear the input after processing
-        st.session_state.process_question = False  # Reset the process flag
-        st.experimental_rerun()  # Rerun the app to update the chat history display
+    if user_input or st.session_state.run_query:
+        if user_input:
+            question_to_process = user_input
+        else:
+            question_to_process = st.session_state.user_question
+        
+        if question_to_process:
+            process_chat_message(personal_info, question_to_process)
+            st.session_state.user_question = ""  # Clear the stored question
+            st.session_state.run_query = False  # Reset the run flag
+
+    # Clear the input field after processing
+    if st.session_state.run_query:
+        st.session_state.user_question = ""
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
+    
