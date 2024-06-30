@@ -1,6 +1,8 @@
-streamlit==1.27.0
-pandas
+streamlit
 requests
-ydata-profiling
-streamlit-pandas-profiling
+streamlit_timeline
+pillow
 plotly
+pandas
+pygwalker
+numpy
