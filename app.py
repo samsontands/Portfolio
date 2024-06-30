@@ -33,7 +33,7 @@ His LinkedIn profile is https://www.linkedin.com/in/samsonthedatascientist/
 def get_groq_response(prompt):
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
-        "Authorization": f"Bearer {st.secrets['groq_api_key']}",
+        "Authorization": f"Bearer {st.secrets['GROQ_API_KEY']}",
         "Content-Type": "application/json"
     }
     data = {
