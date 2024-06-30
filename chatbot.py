@@ -12,12 +12,15 @@ def process_chat_message(personal_info, user_question):
         response = get_groq_response(user_question, personal_info)
         st.session_state.chat_messages.append(('ai', response))
         
-        # Reverse the order of messages and display them
-        for role, message in reversed(st.session_state.chat_messages):
+        # Reverse the order of messages and display them with separation
+        for i, (role, message) in enumerate(reversed(st.session_state.chat_messages)):
+            if i > 0:
+                st.markdown("---")  # Add a horizontal line between Q&A pairs
             if role == 'user':
-                st.write(f"You: {message}")
+                st.markdown(f"**You:** {message}")
             else:
-                st.write(f"AI: {message}")
+                st.markdown(f"**AI:** {message}")
+            st.markdown("")  # Add an empty line for extra spacing
 
 def get_groq_response(prompt, personal_info):
     url = "https://api.groq.com/openai/v1/chat/completions"
