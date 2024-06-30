@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import pygwalker as pyg
 import streamlit.components.v1 as components
 from about_me import show_about_me, personal_info
