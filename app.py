@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import numpy
 import plotly.express as px
 from about_me import show_about_me, personal_info
 from chatbot import init_chatbot, process_chat_message
