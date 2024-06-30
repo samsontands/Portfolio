@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import pygwalker as pyg
-import streamlit.components.v1 as components
+from pygwalker.api.streamlit import StreamlitRenderer
 from about_me import show_about_me, personal_info
 from chatbot import init_chatbot, process_chat_message
 
@@ -39,11 +37,9 @@ def show_data_visualization():
             st.write("Data Preview:")
             st.dataframe(df.head())
             
-            # Generate the HTML using Pygwalker
-            pyg_html = pyg.to_html(df)
-            
-            # Embed the HTML into the Streamlit app
-            components.html(pyg_html, height=1000, scrolling=True)
+            # Use StreamlitRenderer for PyGWalker
+            pyg_app = StreamlitRenderer(df)
+            pyg_app.explorer()
         except pd.errors.EmptyDataError:
             st.error("The uploaded file is empty. Please upload a file with data.")
         except pd.errors.ParserError:
