@@ -1,3 +1,30 @@
+# File: app.py (Main app file)
+
+import streamlit as st
+from about_me import show_about_me
+# Import the data science tools page when it's ready
+# from data_science_tools import show_data_science_tools
+
+st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
+
+def main():
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", ["About Me", "Data Science Tools"])
+
+    if page == "About Me":
+        show_about_me()
+    elif page == "Data Science Tools":
+        # Placeholder for the data science tools page
+        st.title("Data Science Tools")
+        st.write("This page will contain various data science tools.")
+        # Uncomment the line below when the data_science_tools.py file is ready
+        # show_data_science_tools()
+
+if __name__ == "__main__":
+    main()
+
+# File: about_me.py
+
 import streamlit as st
 import requests
 import json
@@ -39,17 +66,15 @@ def get_groq_response(prompt):
     data = {
         "model": "mixtral-8x7b-32768",
         "messages": [
-            {"role": "system", "content": f"You are an AI assistant that answers questions about Samson Tan based on the following information: {personal_info}"},
+            {"role": "system", "content": f"You are an AI assistant that answers questions about Samson Tan based on the following information: {personal_info} Your responses should be short, concise, and to the point, typically no more than 2-3 sentences."},
             {"role": "user", "content": prompt}
-        ]
+        ],
+        "max_tokens": 100
     }
     response = requests.post(url, headers=headers, data=json.dumps(data))
     return response.json()['choices'][0]['message']['content']
 
-def main():
-    st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
-
-    # Header
+def show_about_me():
     st.title("Samson Tan Jia Sheng")
     st.subheader("Data Scientist")
 
@@ -141,6 +166,3 @@ def main():
             response = get_groq_response(user_question)
         st.write(response)
     st.caption("Note: Responses are kept brief. For more detailed information, please refer to the sections above.")
-
-if __name__ == "__main__":
-    main()
