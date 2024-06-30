@@ -2,3 +2,5 @@ streamlit
 requests
 streamlit_timeline
 pillow
+plotly
+pandas
