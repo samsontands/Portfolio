@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy
-import plotly.express as px
+import pygwalker as pyg
 from about_me import show_about_me, personal_info
 from chatbot import init_chatbot, process_chat_message
 
@@ -28,7 +27,7 @@ def show_ask_me_anything():
     st.write("Feel free to ask any questions about Samson's background, skills, or experience.")
 
 def show_data_visualization():
-    st.title("Interactive Data Visualization")
+    st.title("Interactive Data Visualization with PyGWalker")
     st.write("Upload a CSV file to explore and visualize your data interactively.")
     
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
@@ -38,47 +37,8 @@ def show_data_visualization():
             st.write("Data Preview:")
             st.dataframe(df.head())
             
-            # Data summary
-            st.subheader("Data Summary")
-            st.write(df.describe())
-            
-            # Column selection for visualization
-            numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
-            categorical_columns = df.select_dtypes(include=['object', 'bool']).columns
-            
-            # Scatter plot
-            if len(numeric_columns) >= 2:
-                st.subheader("Scatter Plot")
-                x_axis = st.selectbox("Choose x-axis", options=numeric_columns, key="scatter_x")
-                y_axis = st.selectbox("Choose y-axis", options=numeric_columns, key="scatter_y")
-                color_column = st.selectbox("Choose color (optional)", options=['None'] + list(categorical_columns), key="scatter_color")
-                
-                if color_column == 'None':
-                    fig = px.scatter(df, x=x_axis, y=y_axis, title=f"{y_axis} vs {x_axis}")
-                else:
-                    fig = px.scatter(df, x=x_axis, y=y_axis, color=color_column, title=f"{y_axis} vs {x_axis}, colored by {color_column}")
-                st.plotly_chart(fig)
-            
-            # Histogram
-            st.subheader("Histogram")
-            hist_column = st.selectbox("Choose column for histogram", options=numeric_columns, key="hist")
-            fig = px.histogram(df, x=hist_column, title=f"Histogram of {hist_column}")
-            st.plotly_chart(fig)
-            
-            # Bar chart for categorical data
-            if len(categorical_columns) > 0:
-                st.subheader("Bar Chart")
-                cat_column = st.selectbox("Choose categorical column", options=categorical_columns, key="bar")
-                fig = px.bar(df[cat_column].value_counts().reset_index(), x='index', y=cat_column, title=f"Bar Chart of {cat_column}")
-                st.plotly_chart(fig)
-            
-            # Correlation heatmap
-            if len(numeric_columns) > 1:
-                st.subheader("Correlation Heatmap")
-                corr = df[numeric_columns].corr()
-                fig = px.imshow(corr, title="Correlation Heatmap")
-                st.plotly_chart(fig)
-
+            # Use PyGWalker for visualization
+            pyg.walk(df, env='Streamlit')
         except pd.errors.EmptyDataError:
             st.error("The uploaded file is empty. Please upload a file with data.")
         except pd.errors.ParserError:
@@ -86,6 +46,8 @@ def show_data_visualization():
         except Exception as e:
             st.error(f"An error occurred while processing the file: {str(e)}")
             st.write("If the issue persists, please try with a different CSV file.")
+    else:
+        st.write("Upload a CSV file to visualize it with PyGWalker.")
 
 def main():
     # Initialize the chatbot
