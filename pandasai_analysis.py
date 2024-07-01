@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 import sys
+from openai import OpenAI
 
 try:
-    from pandasai import PandasAI
-    from pandasai.llm.openai import OpenAI
     import pandasai
+    from pandasai import PandasAI
+    from pandasai.llm import OpenAI as PandasAI_OpenAI
     st.write(f"PandasAI version: {pandasai.__version__}")
 except ImportError as e:
     st.error(f"Error importing PandasAI: {e}")
@@ -29,8 +30,11 @@ def show_pandasai_analysis():
         st.dataframe(df.head())
 
         try:
-            # Initialize PandasAI
-            llm = OpenAI(api_token=st.secrets["OPENAI_API_KEY"])
+            # Initialize OpenAI client
+            openai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+            # Initialize PandasAI with OpenAI
+            llm = PandasAI_OpenAI(api_token=st.secrets["OPENAI_API_KEY"])
             pandas_ai = PandasAI(llm)
 
             # User input for questions
@@ -44,6 +48,7 @@ def show_pandasai_analysis():
                         st.write(result)
                     except Exception as e:
                         st.error(f"An error occurred while processing the question: {str(e)}")
+                        st.write("Error details:", sys.exc_info())
 
             # Display dataframe info
             st.subheader("Dataset Information")
@@ -54,4 +59,7 @@ def show_pandasai_analysis():
             st.subheader("Basic Statistics")
             st.write(df.describe())
         except Exception as e:
-            st.error(f"An error occurred while initializing PandasAI: {str(e)}")
+            st.error(f"An error occurred while initializing PandasAI or OpenAI: {str(e)}")
+            st.write("Error details:", sys.exc_info())
+            st.write("PandasAI version:", pandasai.__version__)
+            st.write("OpenAI library version:", openai.__version__)
