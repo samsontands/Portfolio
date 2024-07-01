@@ -5,7 +5,7 @@ pillow
 plotly
 pandas
 numpy
-pandasai
+pandasai==1.5.7
 openai
 pyyaml
 matplotlib
