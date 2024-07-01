@@ -1,65 +1,34 @@
+import os
+import openai
 import streamlit as st
 import pandas as pd
-import sys
-from openai import OpenAI
+from dotenv import load_dotenv
+from pandasai import SmartDataframe
+from pandasai.llm.openai import OpenAI
 
-try:
-    import pandasai
-    from pandasai import PandasAI
-    from pandasai.llm import OpenAI as PandasAI_OpenAI
-    st.write(f"PandasAI version: {pandasai.__version__}")
-except ImportError as e:
-    st.error(f"Error importing PandasAI: {e}")
-    st.write(f"Python version: {sys.version}")
-    st.write(f"Pandas version: {pd.__version__}")
-    st.write("Please check your installation and try again.")
+load_dotenv()
 
-def show_pandasai_analysis():
-    st.title("Data Analysis with PandasAI")
-    st.write("Upload a CSV file and ask questions about your data.")
+openai_api_key = os.environ["OPENAI_API_KEY"]
+llm = OpenAI(api_token=openai_api_key)
 
-    # File uploader
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-    
-    if uploaded_file is not None:
-        # Read the CSV file
-        df = pd.read_csv(uploaded_file)
-        
-        # Display the first few rows of the dataframe
-        st.write("Data Preview:")
-        st.dataframe(df.head())
+st.title("Your Data Analysis")
 
-        try:
-            # Initialize OpenAI client
-            openai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+uploaded_csv_file = st.file_uploader("Upload a csv file for analysis", type=["csv"])
 
-            # Initialize PandasAI with OpenAI
-            llm = PandasAI_OpenAI(api_token=st.secrets["OPENAI_API_KEY"])
-            pandas_ai = PandasAI(llm)
+if uploaded_csv_file is not None:
+    df = pd.read_csv(uploaded_csv_file)
+    sdf = SmartDataframe(df, config={"llm": llm})
+    st.write(sdf.head())
 
-            # User input for questions
-            user_question = st.text_input("Ask a question about your data:")
-            
-            if user_question:
-                with st.spinner("Analyzing..."):
-                    try:
-                        result = pandas_ai.run(df, prompt=user_question)
-                        st.write("Answer:")
-                        st.write(result)
-                    except Exception as e:
-                        st.error(f"An error occurred while processing the question: {str(e)}")
-                        st.write("Error details:", sys.exc_info())
+    prompt = st.text_area("Enter your prompt:")
 
-            # Display dataframe info
-            st.subheader("Dataset Information")
-            st.write(f"Rows: {df.shape[0]}, Columns: {df.shape[1]}")
-            st.write("Columns:", ", ".join(df.columns))
+    if st.button("Generate"):
+        if prompt:
+            with st.spinner("Generating Response..."):
+                response = sdf.chat(prompt)
+                st.success(response)
 
-            # Display basic statistics
-            st.subheader("Basic Statistics")
-            st.write(df.describe())
-        except Exception as e:
-            st.error(f"An error occurred while initializing PandasAI or OpenAI: {str(e)}")
-            st.write("Error details:", sys.exc_info())
-            st.write("PandasAI version:", pandasai.__version__)
-            st.write("OpenAI library version:", openai.__version__)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
+        else:
+            st.warning("Please enter a prompt")
