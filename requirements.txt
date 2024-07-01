@@ -9,3 +9,4 @@ pandasai==1.5.7
 openai
 pyyaml
 matplotlib
+python-dotenv
