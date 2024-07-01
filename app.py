@@ -1,6 +1,7 @@
 import streamlit as st
 from about_me import show_about_me, personal_info
 from chatbot import init_chatbot, process_chat_message
+from pandasai_analysis import show_pandasai_analysis
 
 st.set_page_config(page_title="Samson Tan - Data Scientist", layout="wide")
 
@@ -29,12 +30,14 @@ def main():
     init_chatbot()
 
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", ["About Me", "Ask me anything"])
+    page = st.sidebar.radio("Go to", ["About Me", "Ask me anything", "Data Analysis"])
 
     if page == "About Me":
         show_about_me()
     elif page == "Ask me anything":
         show_ask_me_anything()
+    elif page == "Data Analysis":
+        show_pandasai_analysis()
 
     # Display suggested questions (only for "Ask me anything" page)
     if page == "Ask me anything":
