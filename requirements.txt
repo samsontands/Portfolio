@@ -5,3 +5,5 @@ pillow
 plotly
 pandas
 numpy
+pandasai
+openai
