@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
+import yaml
 
 def show_pandasai_analysis():
     st.title("Data Analysis with PandasAI")
