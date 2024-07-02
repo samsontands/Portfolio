@@ -9,7 +9,7 @@
     {
       "start_date": {
         "year": "2022",
-        "month": "06"
+        "month": "06"  
       },
       "end_date": {
         "year": "2024",
@@ -18,14 +18,11 @@
       "text": {
         "headline": "Data Scientist at Alliance Bank Malaysia Berhad",
         "text": "Spearheaded AI-powered chatbot deployment and leveraged computer vision techniques"
-      },
-      "background": {
-        "color": "#4CAF50"
       }
     },
     {
       "start_date": {
-        "year": "2021",
+        "year": "2021", 
         "month": "06"
       },
       "end_date": {
@@ -34,10 +31,7 @@
       },
       "text": {
         "headline": "Data Scientist at GoGet.my",
-        "text": "Built machine learning models and managed dashboards"
-      },
-      "background": {
-        "color": "#2196F3"
+        "text": "Built machine learning models and managed dashboards"  
       }
     },
     {
@@ -52,9 +46,6 @@
       "text": {
         "headline": "Masters in Data Science and Business Analytics",
         "text": "Asia Pacific University of Technology and Innovation"
-      },
-      "background": {
-        "color": "#FFC107"
       }
     },
     {
@@ -63,15 +54,12 @@
         "month": "02"
       },
       "end_date": {
-        "year": "2019",
+        "year": "2019", 
         "month": "07"
       },
       "text": {
         "headline": "Bachelor of Psychology and Business",
         "text": "Monash University"
-      },
-      "background": {
-        "color": "#FF5722"
       }
     }
   ]
