@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import json
 from streamlit_timeline import timeline
-import plotly.graph_objects as go
 import pandas as pd
 
 # Load configuration files
@@ -89,23 +88,8 @@ def show_about_me():
 
     # Education
     st.subheader('Education 📖')
-    education_data = pd.DataFrame({
-        'Degree': ['Masters in Data Science and Business Analytics (Data Engineering)', 
-                   'Bachelor of Psychology and Business (Psychology and Econometrics)'],
-        'Institution': ['Asia Pacific University of Technology and Innovation', 'Monash University'],
-        'Year': ['2020-2022', '2016-2020']
-    })
-
-    fig = go.Figure(data=[go.Table(
-        header=dict(values=list(education_data.columns),
-                    fill_color='paleturquoise',
-                    align='left', height=65, font_size=20),
-        cells=dict(values=education_data.transpose().values.tolist(),
-                   fill_color='lavender',
-                   align='left', height=40, font_size=15))])
-
-    fig.update_layout(width=750, height=200)
-    st.plotly_chart(fig)
+    st.write("- Masters in Data Science and Business Analytics (Data Engineering) | Asia Pacific University of Technology and Innovation | 2020-2022")
+    st.write("- Bachelor of Psychology and Business (Psychology and Econometrics) | Monash University | 2016-2020")
 
     # LLM Models
     st.subheader("LLM Models")
@@ -114,7 +98,7 @@ def show_about_me():
     Mistral, Mixtral, Meta Llama2, Microsoft Phi2, Google Gemma
 
     **Cloud API:**
-    OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API
+    OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API  
     """)
 
     # Chatbot
