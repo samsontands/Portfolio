@@ -26,91 +26,65 @@ def show_ask_me_anything():
     st.title("Ask me anything about Samson")
     st.write("Feel free to ask any questions about Samson's background, skills, or experience.")
 
-def show_about_me():
-    st.title("Samson Tan Jia Sheng")
-    st.subheader("Data Scientist")
-
-    # About Me
-    st.header("About Me")
-    st.write("""
-    Skilled Data Scientist with expertise in Large Language Models (LLM) and the latest AI/ML advancements. 
-    Exceptional at applying current technologies for impactful solutions and staying agile in a rapidly evolving field.
-    """)
-
-    # Contact Information
-    st.sidebar.header("Contact Information")
-    st.sidebar.write("📞 +6011-1122 1128")
-    st.sidebar.write("✉️ samsontands@gmail.com")
-    st.sidebar.write("📍 Kuala Lumpur, Malaysia")
-    st.sidebar.write("🔗 [LinkedIn](https://www.linkedin.com/in/samsonthedatascientist/)")
-
-    # Work Experience
-    st.header("Work Experience")
-
-    st.subheader("Alliance Bank Malaysia Berhad")
-    st.write("**Data Scientist | June, 2022 - Present**")
-    st.write("""
-    - Spearheaded on-premise deployment of AI-powered chatbot for housing discount checks
-    - Leveraged AI computer vision techniques to extract data from unstructured sources
-    - Developed user-friendly Python applications for cross-departmental PDF customization
-    - Conducted training on Tableau and Python for various teams
-    """)
-
-    st.subheader("GoGet.my")
-    st.write("**Data Scientist | May, 2021 - June, 2022**")
-    st.write("""
-    - Built rider-job-claiming machine learning model improving timeliness
-    - Set up and managed Amazon Quicksight visualization dashboard
-    - Utilized ARIMA models for forecasting peak season rider demand
-    """)
-
-    # Skills
-    st.header("Skills")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.subheader("AI Skills")
-        st.write("""
-        - LLM fine-tuning
-        - Retrieval Augmented Generation (RAG)
-        - Machine Learning
-        - Natural Language Processing (NLP)
-        - Computer Vision
-        - API integrations and BERT embeddings
-        """)
-
-    with col2:
-        st.subheader("Languages and Databases")
-        st.write("Python, R, SQL, PostgreSQL")
-
-        st.subheader("Frameworks and Tools")
-        st.write("""
-        RAG, VScode, Anaconda, RStudio, Google Colab, 
-        LM Studio, Ollama, Jan, MLX, CUDA, PyTorch
-        """)
-
-    with col3:
-        st.subheader("LLM Models")
-        st.write("""
-        **Local Offline:**
-        Mistral, Mixtral, Meta Llama2, Microsoft Phi2, Google Gemma
-
-        **Cloud API:**
-        OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API
-        """)
-
-    # Education (simplified to normal text)
-    st.header("Education")
-    st.write("""
-    • Masters in Data Science and Business Analytics (Data Engineering)
-      Asia Pacific University of Technology and Innovation, 2020-2022
-
-    • Bachelor of Psychology and Business (Psychology and Econometrics)
-      Monash University, 2016-2020
-    """)
-
 def show_data_visualization():
-    # ... (keep the existing show_data_visualization function as is)
+    st.title("Interactive Data Visualization")
+    st.write("Upload a CSV file to explore and visualize your data interactively.")
+    
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    if uploaded_file is not None:
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.write("Data Preview:")
+            st.dataframe(df.head())
+            
+            # Data summary
+            st.subheader("Data Summary")
+            st.write(df.describe())
+            
+            # Column selection for visualization
+            numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+            categorical_columns = df.select_dtypes(include=['object', 'bool']).columns
+            
+            # Scatter plot
+            if len(numeric_columns) >= 2:
+                st.subheader("Scatter Plot")
+                x_axis = st.selectbox("Choose x-axis", options=numeric_columns, key="scatter_x")
+                y_axis = st.selectbox("Choose y-axis", options=numeric_columns, key="scatter_y")
+                color_column = st.selectbox("Choose color (optional)", options=['None'] + list(categorical_columns), key="scatter_color")
+                
+                if color_column == 'None':
+                    fig = px.scatter(df, x=x_axis, y=y_axis, title=f"{y_axis} vs {x_axis}")
+                else:
+                    fig = px.scatter(df, x=x_axis, y=y_axis, color=color_column, title=f"{y_axis} vs {x_axis}, colored by {color_column}")
+                st.plotly_chart(fig)
+            
+            # Histogram
+            st.subheader("Histogram")
+            hist_column = st.selectbox("Choose column for histogram", options=numeric_columns, key="hist")
+            fig = px.histogram(df, x=hist_column, title=f"Histogram of {hist_column}")
+            st.plotly_chart(fig)
+            
+            # Bar chart for categorical data
+            if len(categorical_columns) > 0:
+                st.subheader("Bar Chart")
+                cat_column = st.selectbox("Choose categorical column", options=categorical_columns, key="bar")
+                fig = px.bar(df[cat_column].value_counts().reset_index(), x='index', y=cat_column, title=f"Bar Chart of {cat_column}")
+                st.plotly_chart(fig)
+            
+            # Correlation heatmap
+            if len(numeric_columns) > 1:
+                st.subheader("Correlation Heatmap")
+                corr = df[numeric_columns].corr()
+                fig = px.imshow(corr, title="Correlation Heatmap")
+                st.plotly_chart(fig)
+
+        except pd.errors.EmptyDataError:
+            st.error("The uploaded file is empty. Please upload a file with data.")
+        except pd.errors.ParserError:
+            st.error("Unable to parse the file. Please ensure it's a valid CSV file.")
+        except Exception as e:
+            st.error(f"An error occurred while processing the file: {str(e)}")
+            st.write("If the issue persists, please try with a different CSV file.")
 
 def main():
     # Initialize the chatbot
