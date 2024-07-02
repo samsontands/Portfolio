@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 from streamlit_timeline import timeline
+import plotly.graph_objects as go
 import pandas as pd
 
 # Load configuration files
@@ -18,7 +19,21 @@ with open('config/skills.json', 'r') as f:
     skills_data = json.load(f)
 
 def get_groq_response(prompt):
-    # ... (keep the existing get_groq_response function)
+    url = "https://api.groq.com/openai/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {st.secrets['GROQ_API_KEY']}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "mixtral-8x7b-32768",
+        "messages": [
+            {"role": "system", "content": f"{system_prompt} {personal_info}"},
+            {"role": "user", "content": prompt}
+        ],
+        "max_tokens": 100
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    return response.json()['choices'][0]['message']['content']
 
 def create_skill_buttons(skills):
     cols = st.columns(4)  # Adjust the number of columns as needed
@@ -72,17 +87,25 @@ def show_about_me():
     - Utilized ARIMA models for forecasting peak season rider demand
     """)
 
-    # Education (updated to use plain text)
+    # Education
     st.subheader('Education 📖')
-    st.write("""
-    • Masters in Data Science and Business Analytics (Data Engineering)
-      Asia Pacific University of Technology and Innovation
-      2020 - 2022
+    education_data = pd.DataFrame({
+        'Degree': ['Masters in Data Science and Business Analytics (Data Engineering)', 
+                   'Bachelor of Psychology and Business (Psychology and Econometrics)'],
+        'Institution': ['Asia Pacific University of Technology and Innovation', 'Monash University'],
+        'Year': ['2020-2022', '2016-2020']
+    })
 
-    • Bachelor of Psychology and Business (Psychology and Econometrics)
-      Monash University
-      2016 - 2020
-    """)
+    fig = go.Figure(data=[go.Table(
+        header=dict(values=list(education_data.columns),
+                    fill_color='paleturquoise',
+                    align='left', height=65, font_size=20),
+        cells=dict(values=education_data.transpose().values.tolist(),
+                   fill_color='lavender',
+                   align='left', height=40, font_size=15))])
+
+    fig.update_layout(width=750, height=200)
+    st.plotly_chart(fig)
 
     # LLM Models
     st.subheader("LLM Models")
