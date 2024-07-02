@@ -1,62 +1,52 @@
-{
-  "title": {
-    "text": {
-      "headline": "Samson Tan's Career Timeline",
-      "text": "A journey through data science and AI"
-    }
+[
+  {
+    "year": "2024",
+    "events": [
+      {
+        "name": "Data Scientist",
+        "description": "Alliance Bank Malaysia Berhad",
+        "date": "June 2022 - July 2024"
+      }
+    ]
   },
-  "events": [
-    {
-      "start_date": {
-        "year": "2022",
-        "month": "06"
-      },
-      "text": {
-        "headline": "Data Scientist at Alliance Bank Malaysia Berhad",
-        "text": "Spearheaded AI-powered chatbot deployment and leveraged computer vision techniques"
+  {
+    "year": "2022",
+    "events": [
+      {
+        "name": "Data Scientist",
+        "description": "GoGet.my",
+        "date": "June 2021 - May 2022"
       }
-    },
-    {
-      "start_date": {
-        "year": "2021",
-        "month": "05"
-      },
-      "end_date": {
-        "year": "2022",
-        "month": "05"
-      },
-      "text": {
-        "headline": "Data Scientist at GoGet.my",
-        "text": "Built machine learning models and managed dashboards"
+    ]
+  },
+  {
+    "year": "2021",
+    "events": [
+      {
+        "name": "Master's Degree",
+        "description": "Data Science and Business Analytics, Asia Pacific University of Technology and Innovation",
+        "date": "November 2019 - May 2021"
       }
-    },
-    {
-      "start_date": {
-        "year": "2020",
-        "month": "09"
-      },
-      "end_date": {
-        "year": "2022",
-        "month": "05"
-      },
-      "text": {
-        "headline": "Masters in Data Science and Business Analytics",
-        "text": "Asia Pacific University of Technology and Innovation"
+    ]
+  },
+  {
+    "year": "2019",
+    "events": [
+      {
+        "name": "Bachelor's Degree",
+        "description": "Psychology and Business, Monash University",
+        "date": "February 2016 - July 2019"
       }
-    },
-    {
-      "start_date": {
-        "year": "2016",
-        "month": "09"
-      },
-      "end_date": {
-        "year": "2020",
-        "month": "05"
-      },
-      "text": {
-        "headline": "Bachelor of Psychology and Business",
-        "text": "Monash University"
+    ]
+  },
+  {
+    "year": "2016",
+    "events": [
+      {
+        "name": "Started Bachelor's Degree",
+        "description": "Monash University",
+        "date": "February 2016"
       }
-    }
-  ]
-}
+    ]
+  }
+]
