@@ -18,6 +18,9 @@
       "text": {
         "headline": "Data Scientist at Alliance Bank Malaysia Berhad",
         "text": "Spearheaded AI-powered chatbot deployment and leveraged computer vision techniques"
+      },
+      "background": {
+        "color": "#4CAF50"
       }
     },
     {
@@ -32,6 +35,9 @@
       "text": {
         "headline": "Data Scientist at GoGet.my",
         "text": "Built machine learning models and managed dashboards"
+      },
+      "background": {
+        "color": "#2196F3"
       }
     },
     {
@@ -46,6 +52,9 @@
       "text": {
         "headline": "Masters in Data Science and Business Analytics",
         "text": "Asia Pacific University of Technology and Innovation"
+      },
+      "background": {
+        "color": "#FFC107"
       }
     },
     {
@@ -60,6 +69,9 @@
       "text": {
         "headline": "Bachelor of Psychology and Business",
         "text": "Monash University"
+      },
+      "background": {
+        "color": "#FF5722"
       }
     }
   ]
