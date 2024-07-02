@@ -24,7 +24,7 @@ def get_groq_response(prompt):
         "Content-Type": "application/json"
     }
     data = {
-        "model": "mixtral-8x7b-32768",
+        "model": "mixtral-8x7b-32768", 
         "messages": [
             {"role": "system", "content": f"{system_prompt} {personal_info}"},
             {"role": "user", "content": prompt}
@@ -62,7 +62,7 @@ def show_about_me():
     with st.spinner(text="Building timeline..."):
         timeline(timeline_data, height=400)
 
-    # Skills & Tools
+    # Skills & Tools  
     st.subheader('Skills & Tools ⚒️')
     create_skill_buttons(skills_data['skills'])
 
@@ -73,7 +73,7 @@ def show_about_me():
     st.write("**Data Scientist | June, 2022 - Present**")
     st.write("""
     - Spearheaded on-premise deployment of AI-powered chatbot for housing discount checks
-    - Leveraged AI computer vision techniques to extract data from unstructured sources
+    - Leveraged AI computer vision techniques to extract data from unstructured sources  
     - Developed user-friendly Python applications for cross-departmental PDF customization
     - Conducted training on Tableau and Python for various teams
     """)
@@ -88,8 +88,8 @@ def show_about_me():
 
     # Education
     st.subheader('Education 📖')
-    st.write("- Masters in Data Science and Business Analytics (Data Engineering) | Asia Pacific University of Technology and Innovation | 2020-2022")
-    st.write("- Bachelor of Psychology and Business (Psychology and Econometrics) | Monash University | 2016-2020")
+    st.write("- Masters in Data Science and Business Analytics (Data Engineering) | Asia Pacific University of Technology and Innovation | 2019-2021")  
+    st.write("- Bachelor of Psychology and Business (Psychology and Econometrics) | Monash University | 2016-2019")
 
     # LLM Models
     st.subheader("LLM Models")
@@ -98,7 +98,7 @@ def show_about_me():
     Mistral, Mixtral, Meta Llama2, Microsoft Phi2, Google Gemma
 
     **Cloud API:**
-    OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API  
+    OpenAI ChatGPT, GPT-4, GPT-vision, GPT-3.5, GPT-2, GROQ API
     """)
 
     # Chatbot
